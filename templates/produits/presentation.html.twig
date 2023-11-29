@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Presentation{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="span9">
+            <div class="row">
+                <div class="span5">
+                    <img src="{{ produit.getImage }}" alt="DevAndClick" width="470" height="310">
+                </div>
+                <div class="span4">
+                    <h4>{{ produit.categorie.nom }}</h4>
+                    <h5>{{ produit.nom }}</h5>
+                    <p>{{ produit.description }}</p>
+                    <h4>{{ produit.prix }} €</h4>
+                    <form action="{{ path('app_panier', {'id': produit.id}) }}" method="get">
+                        <div>
+                            <a class="btn btn-primary" href="{{ path('app_ajouterPanier', {'id' : produit.id}) }}">Ajouter au panier</a>
+                        </div>
+                    </form>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
