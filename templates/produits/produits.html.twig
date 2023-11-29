@@ -1,46 +1,34 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Acceuil{% endblock %}
+{% block title %}Home{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}" />
+{% endblock %}
 
 {% block body %}
-<div class="container">
+<section class="items">
     <div class="row">
-        <div class="span3">
-        {% include 'modulesUsed/navigation.html.twig' %}
-        {% include 'modulesUsed/utilisateur.html.twig' %}
+        <div class="col">
+            {% include 'modulesUsed/navigation.html.twig' %}
+            {% include 'modulesUsed/utilisateur.html.twig' %}
         </div>
-        <div class="span9">
-            <ul class="thumbnails">
+        <div class="col2">
+            <img class="home-img" src="{{ asset('assets/img/home.jpg') }}" alt="home" />
+            <div class="items2">
                 {% for stock in stocks %}
                 {% if stock.stockCritique == 0 %}
-                <li class="span3">
-                    <div class="thumbnail">
-                        <img src="{{ stock.produit.getImage }}" alt="ALL4SPORT" width="200" height="200">
-                        <div class="caption">
-                            <h4>{{ stock.produit.nom }}</h4>
-                            <p>{{ stock.produit.prix }} €</p>
-                            <a class="btn btn-primary" href="{{ path('app_presentation', { 'id' : stock.produit.id}) }}">Plus d'infos</a>
-                            <a class="btn btn-success" href="{{ path('app_ajouterPanier', {'id' : stock.produit.id}) }}">Ajouter au panier</a>
-                        </div>
-                    </div>
-                </li>
+
+                <div class="card">
+                    <img src="{{ stock.produit.getImage }}" alt="BlissfulHaven" width="200" height="200">
+                    <h4>{{ stock.produit.nom }}</h4>
+                    <p>{{ stock.produit.prix }} €</p>
+                    <p><a href="{{ path('app_presentation', { 'id' : stock.produit.id}) }}">Plus d'infos</a></p>
+                    <p><a href="{{ path('app_ajouterPanier', {'id' : stock.produit.id}) }}">Ajouter au panier</a></p>
+                </div>
                 {% endif %}
                 {% endfor %}
-            </ul>
-
-            <div class="pagination">
-                <ul>
-                    <li class="disabled"><span>Précédent</span></li>
-                    <li class="disabled"><span>1</span></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">Suivant</a></li>
-                </ul>
             </div>
-
         </div>
-    </div>
-</div>
+</section>
 {% endblock %}
