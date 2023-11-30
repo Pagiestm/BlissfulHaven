@@ -10,25 +10,28 @@
 <section class="items">
     <div class="row">
         <div class="col">
-            {% include 'modulesUsed/navigation.html.twig' %}
+            {% include 'modulesUsed/navigation.html.twig' with {'categories': categories, 'selectedCategorie': selectedCategorie} %}
             {% include 'modulesUsed/utilisateur.html.twig' %}
         </div>
         <div class="col2">
             <img class="home-img" src="{{ asset('assets/img/home.jpg') }}" alt="home" />
             <div class="items2">
                 {% for stock in stocks %}
-                {% if stock.stockCritique == 0 %}
-
-                <div class="card">
-                    <img src="{{ stock.produit.getImage }}" alt="BlissfulHaven" width="200" height="200">
-                    <h4>{{ stock.produit.nom }}</h4>
-                    <p>{{ stock.produit.prix }} €</p>
-                    <p><a href="{{ path('app_presentation', { 'id' : stock.produit.id}) }}">Plus d'infos</a></p>
-                    <p><a href="{{ path('app_ajouterPanier', {'id' : stock.produit.id}) }}">Ajouter au panier</a></p>
-                </div>
-                {% endif %}
+                    {% if stock.stockCritique == 0 %}
+                        {# Vérifiez si la catégorie sélectionnée correspond à la catégorie du produit ou si aucune catégorie n'est sélectionnée #}
+                        {% if not selectedCategorie or (stock.produit.categorie and stock.produit.categorie.id == selectedCategorie.id) %}
+                            <div class="card">
+                                <img src="{{ stock.produit.getImage }}" alt="BlissfulHaven" width="200" height="200">
+                                <h4>{{ stock.produit.nom }}</h4>
+                                <p>{{ stock.produit.prix }} €</p>
+                                <p><a href="{{ path('app_presentation', { 'id' : stock.produit.id}) }}">Plus d'infos</a></p>
+                                <p><a href="{{ path('app_ajouterPanier', {'id' : stock.produit.id}) }}">Ajouter au panier</a></p>
+                            </div>
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
+    </div>
 </section>
 {% endblock %}

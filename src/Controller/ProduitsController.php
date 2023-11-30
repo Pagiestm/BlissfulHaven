@@ -22,18 +22,23 @@ class ProduitsController extends AbstractController
         $stocks = $stockRepo->findAll();
 
         $categorieId = $request->query->get('categorie');
+        $selectedCategorie = null;
+
         if ($categorieId) {
-            $categorie = $categorieRepo->find($categorieId);
-            if (!$categorie) {
+            $selectedCategorie = $categorieRepo->find($categorieId);
+
+            if (!$selectedCategorie) {
                 throw $this->createNotFoundException('La catégorie demandée n\'existe pas');
             }
-            $produits = $produitRepo->findBy(['categorie' => $categorie]);
+
+            $produits = $produitRepo->findBy(['categorie' => $selectedCategorie]);
         }
 
         return $this->render('produits/produits.html.twig', [
             "categories" => $categories,
             "produits" => $produits,
             "stocks" => $stocks,
+            "selectedCategorie" => $selectedCategorie,
         ]);
     }
 

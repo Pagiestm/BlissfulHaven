@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                     {% for commande in commandes %}
-                        {% if commande.etat == 'distribué' %}
+                        {% if commande.etat == 'Distribué' %}
                             <tr>
                                 <td>{{ commande.date|date('d/m/Y') }}</td>
                                 <td>
