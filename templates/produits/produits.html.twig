@@ -7,31 +7,212 @@
 {% endblock %}
 
 {% block body %}
-<section class="items">
-    <div class="row">
-        <div class="col">
-            {% include 'modulesUsed/navigation.html.twig' with {'categories': categories, 'selectedCategorie': selectedCategorie} %}
-            {% include 'modulesUsed/utilisateur.html.twig' %}
-        </div>
-        <div class="col2">
-            <img class="home-img" src="{{ asset('assets/img/home.jpg') }}" alt="home" />
-            <div class="items2">
-                {% for stock in stocks %}
-                    {% if stock.stockCritique == 0 %}
-                        {# Vérifiez si la catégorie sélectionnée correspond à la catégorie du produit ou si aucune catégorie n'est sélectionnée #}
-                        {% if not selectedCategorie or (stock.produit.categorie and stock.produit.categorie.id == selectedCategorie.id) %}
-                            <div class="card">
-                                <img src="{{ stock.produit.getImage }}" alt="BlissfulHaven" width="200" height="200">
-                                <h4>{{ stock.produit.nom }}</h4>
-                                <p>{{ stock.produit.prix }} €</p>
-                                <p><a href="{{ path('app_presentation', { 'id' : stock.produit.id}) }}">Plus d'infos</a></p>
-                                <p><a href="{{ path('app_ajouterPanier', {'id' : stock.produit.id}) }}">Ajouter au panier</a></p>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
+<!-- slider section -->
+<section class="slider_section position-relative">
+    <div class="slider_bg_box">
+        <img class="home-img" src="{{ asset('assets/img/home.jpg') }}" alt="home" />
+    </div>
+    <div class="slider_bg"></div>
+    <div class="container">
+        <div class="col-md-9 col-lg-8">
+            <div class="detail-box">
+                <h1>
+                    Best Jewellery
+                    <br> Collection
+                </h1>
+                <p>
+                    It is a long established fact that a reader will be distracted by the readable content of a page
+                    when
+                    looking at its layout. The point of using Lorem
+                </p>
+                <div>
+                    <a href="" class="slider-link">
+                        Shop Now
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
+<!-- end slider section -->
+
+<!-- shop section -->
+
+<section class="shop_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>
+                Nos Produits
+            </h2>
+        </div>
+        <div class="row">
+            {% for stock in stocks %}
+            {% if stock.stockCritique == 0 %}
+            {# Vérifiez si la catégorie sélectionnée correspond à la catégorie du produit ou si aucune catégorie
+            n'est sélectionnée #}
+            {% if not selectedCategorie or (stock.produit.categorie and stock.produit.categorie.id ==
+            selectedCategorie.id) %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="box">
+                    <a href="{{ path('app_presentation', { 'id' : stock.produit.id}) }}">
+                        <div class="img-box">
+                            <img src="{{ stock.produit.getImage }}" alt="BlissfulHaven">
+                        </div>
+                        <div class="detail-box">
+                            <h6>
+                                Prix :
+                                <span>
+                                    {{ stock.produit.prix }} €
+                                </span>
+                            </h6>
+                            <h6>
+                                <a href="{{ path('app_ajouterPanier', {'id' : stock.produit.id}) }}">Ajouter : <i
+                                        class="fas fa-shopping-cart"></i></a>
+                            </h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="btn-box">
+            <a href="">
+                Voir tous nos produits
+            </a>
+        </div>
+    </div>
+</section>
+<!-- end shop section -->
+
+<!-- about section -->
+
+<section class="about_section  ">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="img-box">
+                    <img src="{{ asset('assets/img/soins.jpg') }}" alt="">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="detail-box">
+                    <div class="heading_container">
+                        <h2>
+                            À PROPOS DE NOUS
+                        </h2>
+                    </div>
+                    <p>
+                        Bienvenue chez BlissfulHaven, votre destination beauté incontournable. En tant que site
+                        e-commerce spécialisé dans les produits de beauté, nous mettons en avant des articles
+                        soigneusement sélectionnés pour sublimer votre éclat naturel. Notre engagement envers la qualité
+                        se reflète dans notre gamme, allant des soins de la peau aux cosmétiques. Chez BlissfulHaven, la
+                        diversité est au cœur de notre philosophie, promouvant une beauté authentique et responsable.
+                        Rejoignez notre communauté passionnée et découvrez une expérience beauté unique. Suivez-nous
+                        pour des conseils exclusifs et plongez dans un monde où chaque produit incarne la célébration de
+                        votre beauté individuelle. BlissfulHaven, là où la confiance et la beauté fusionnent.
+                    </p>
+                    <a href="">
+                        En savoir plus
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end about section -->
+
+<!-- offer section -->
+
+<section class="offer_section layout_padding">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 px-0">
+                <div class="box offer-box1">
+                    <img src="{{ asset('assets/img/o1.jpg') }}" alt="soins">
+                    <div class="detail-box">
+                        <h2>
+                            Upto 15% Off
+                        </h2>
+                        <a href="">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 px-0">
+                <div class="box offer-box2">
+                    <img src="{{ asset('assets/img/o2.jpg') }}" alt="soins" width="1200" height="267">
+                    <div class="detail-box">
+                        <h2>
+                            Upto 10% Off
+                        </h2>
+                        <a href="">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+                <div class="box offer-box3">
+                    <img src="{{ asset('assets/img/o3.jpg') }}" alt="soins" width="1200" height="267">
+                    <div class="detail-box">
+                        <h2>
+                            Upto 20% Off
+                        </h2>
+                        <a href="">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end offer section -->
+
+
+<!-- client section -->
+
+<section class="client_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                Développeur
+            </h2>
+        </div>
+        <div id="carouselExample2Controls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-md-11 col-lg-10 mx-auto">
+                            <div class="box">
+                                <div class="img-box">
+                                    <img src="{{ asset('assets/img/theotime.jpg') }}" alt="" />
+                                </div>
+                                <div class="detail-box">
+                                    <div class="name">
+                                        <h6>
+                                            Théotime Pagies
+                                        </h6>
+                                    </div>
+                                    <p>
+                                        Je me présente je me nomme Théotime et Je suis passionné par le monde du
+                                        numérique, notamment le développement web.
+                                        J'ai créé le projet BlissfulHaven afin de l'utiliser et de m'améliorer avec le
+                                        Framework Symfony et Twig !
+                                    </p>
+                                    <i class="fa fa-quote-left" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end client section -->
 {% endblock %}

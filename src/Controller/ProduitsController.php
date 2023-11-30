@@ -55,4 +55,17 @@ class ProduitsController extends AbstractController
             "produit" => $produit,
         ]);
     }
+
+    /**
+     * @Route("/produits", name="app_historiqueProduits")
+     */
+    public function adminProduits(ProduitsRepository $produitRepo)
+    {
+        $user = $this->getUser();
+        $produits = $produitRepo->findBy(['user' => $user]);
+
+        return $this->render('historique/produits.html.twig', [
+            'produits' => $produits,
+        ]);
+    }
 }

@@ -3,14 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href=" {{ asset('assets/css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}" />
     <link rel="stylesheet" href=" {{ asset('assets/css/bootstrap-responsive.css') }}" />
-    <link rel="stylesheet" href=" {{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href=" {{ asset('assets/css/font-awesome.css') }}" />
     <link rel="stylesheet" href=" {{ asset('assets/css/navbar.css') }}" />
+    <link rel="stylesheet" href=" {{ asset('assets/css/footer.css') }}" />
+    <!-- Vos autres balises meta et liens vers les fichiers CSS -->
+
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo.png') }}" />
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
     {% block stylesheets %}
     {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -19,61 +24,166 @@
 <body>
     {% block body %}{% endblock %}
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <nav>
-                <ul>
-                    <li class="primary-nav">
-                        <img src="{{ asset('assets/img/logo.png') }}" alt="logo" />
-                        <a href="{{ path('app_produits')}}">BlissfulHaven</a>
-                    </li>
-                    <li class="secondary-nav">
-                        <a href="{{ path('app_panier')}}">
-                            <i class="fas fa-shopping-cart"></i> Mon panier
-                        </a>
-                    </li>
-                    <li class="secondary-nav">
-                        <a href="{{ path('app_historiqueCommandes')}}">Mes Commandes</a>
-                    </li>
-                </ul>
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <a class="navbar-brand" href="index.html">
+                    <span>
+                        BlissfulHaven
+                    </span>
+                </a>
+                <div class="" id="">
+
+                    <div class="custom_menu-btn">
+                        <button onclick="openNav()">
+                            <span class="s-1"> </span>
+                            <span class="s-2"> </span>
+                            <span class="s-3"> </span>
+                        </button>
+                        <div id="myNav" class="overlay">
+                            <div class="overlay-content">
+                                <a href="index.html">Home</a>
+                                {% if app.user is null %}
+                                <a class="brand" href="{{ path('app_register') }}">Inscription</a>
+                                <a class="brand" href="{{ path('app_login') }}">Connexion</a>
+                                {% else %}
+                                <p class="brand">{{app.user.pseudo }}</p>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <a class="brand" href="{{ path('app_panel')}}">Administration</a>
+                                {% endif %}
+                                <a class="brand" href="{{ path('app_historiqueCommandes')}}">Historique de mes
+                                    Commandes</a>
+                                <a class="brand" href="{{ path('app_logout') }}">Déconnexion</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </nav>
         </div>
-    </div>
-    <hr />
+    </header>
+    <!-- end header section -->
 
-    <footer id="footer" class="vspace20">
+
+
+    <!-- info section -->
+    <section class="info_section layout_padding2">
         <div class="container">
-            <div class="row">
-                <div class="span4 offset1">
-                    <h4>Informations</h4>
-                    <ul class="nav nav-stacked">
-                        <li><a href="texte.php">CGV</a>
-                        <li><a href="texte.php">Mentions légales</a>
-                    </ul>
+            <div class="row info_form_social_row">
+                <div class="col-md-8 col-lg-9">
+                    <div class="info_form">
+                        <form action="">
+                            <input type="email" placeholder="Enter your email">
+                            <button>
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
+                <div class="col-md-4 col-lg-3">
 
-                <div class="span4">
-                    <h4>Notre entrepôt</h4>
-                    <p><i class="icon-map-marker"></i>&nbsp;Valenciennes 59 300 - 85 Avenue de Denain</p>
-                </div>
-
-                <div class="span2">
-                    <h4>Nous contacter</h4>
-                    <p><i class="icon-phone"></i>&nbsp;Tel: 02 35 00 00 00</p>
-                    <p><i class="icon-print"></i>&nbsp;Fax: 02 35 00 00 00</p>
+                    <div class="social_box">
+                        <a href="">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="span4">
-                    <p>&copy; Copyright 2024 - BlissfulHaven</p>
+            <div class="row info_main_row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="info_links">
+                        <h4>
+                            Menu
+                        </h4>
+                        <div class="info_links_menu">
+                            <a href="index.html">Home</a>
+                            <a href="about.html">About</a>
+                            <a href="shop.html">Shop</a>
+                            <a href="blog.html">Blog</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="info_insta">
+                        <h4>
+                            Instagram
+                        </h4>
+                        <div class="insta_box">
+                            <div class="img-box">
+                                <img src="images/p1.png" alt="">
+                            </div>
+                            <p>
+                                long established fact that a reader
+                            </p>
+                        </div>
+                        <div class="insta_box">
+                            <div class="img-box">
+                                <img src="images/p2.png" alt="">
+                            </div>
+                            <p>
+                                long established fact that a reader
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="info_detail">
+                        <h4>
+                            About Us
+                        </h4>
+                        <p class="mb-0">
+                            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
+                            normal
+                            distribution of letters, as opposed to
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <h4>
+                        Contact Us
+                    </h4>
+                    <div class="info_contact">
+                        <a href="">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>
+                                Location
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>
+                                Call +01 1234567890
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-envelope"></i>
+                            <span>
+                                demo@gmail.com
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </section>
+
+    <!-- end info_section -->
+
+
+
     {% block javascripts %}
-    <script src="{{ asset('assets/js/jquery-1.10.0.min.js') }}"></script>
-    <script src="{{ asset ('assets/js/bootstrap.js') }}"></script>
+    {# Ajoutez vos fichiers JavaScript ici #}
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-3.4.1.min.js') }}"></script>
     {% endblock %}
 </body>
 
