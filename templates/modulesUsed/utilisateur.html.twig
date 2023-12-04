@@ -1,17 +1,22 @@
-<div class="well">
-    <ul class="nav nav-list">
-        <li>
-        {% if app.user is null %}
-            <a class="brand" href="{{ path('app_register') }}">Inscription</a>
-            <a class="brand" href="{{ path('app_login') }}">Connexion</a>
-        {% else %}
-            <p class="brand">{{app.user.pseudo }}</p>
-            {% if is_granted('ROLE_ADMIN') %}
-            <a class="brand" href="{{ path('app_panel')}}">Administration</a>
-            {% endif %}
-            <a class="brand" href="{{ path('app_historiqueCommandes')}}">Historique de mes Commandes</a>
-            <a class="brand" href="{{ path('app_logout') }}">Déconnexion</a>
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/modulesUsed/menuShow.css') }}" />
+{% endblock %}
+<button onclick="myFunction()" class="dropbtn">➡</button>
+<div id="myDropdown" class="dropdown">
+    {% if app.user is null %}
+        <a href="{{ path('app_register') }}">Inscription</a>
+        <a href="{{ path('app_login') }}">Connexion</a>
+    {% else %}
+        <p>{{app.user.pseudo }}</p>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_panel')}}">Administration</a>
         {% endif %}
-        </li>
-    </ul>
+        <a href="{{ path('app_historiqueCommandes')}}">Historique de mes Commandes</a>
+        <a href="{{ path('app_logout') }}">Déconnexion</a>
+    {% endif %}
 </div>
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/menuShow.js') }}"></script>
+{% endblock %}

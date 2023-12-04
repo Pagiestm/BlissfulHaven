@@ -10,7 +10,6 @@
     <link rel="stylesheet" href=" {{ asset('assets/css/font-awesome.css') }}" />
     <link rel="stylesheet" href=" {{ asset('assets/css/navbar.css') }}" />
     <link rel="stylesheet" href=" {{ asset('assets/css/footer.css') }}" />
-    <!-- Vos autres balises meta et liens vers les fichiers CSS -->
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo.png') }}" />
 
@@ -44,18 +43,6 @@
                         <div id="myNav" class="overlay">
                             <div class="overlay-content">
                                 <a href="index.html">Home</a>
-                                {% if app.user is null %}
-                                <a class="brand" href="{{ path('app_register') }}">Inscription</a>
-                                <a class="brand" href="{{ path('app_login') }}">Connexion</a>
-                                {% else %}
-                                <p class="brand">{{app.user.pseudo }}</p>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                <a class="brand" href="{{ path('app_panel')}}">Administration</a>
-                                {% endif %}
-                                <a class="brand" href="{{ path('app_historiqueCommandes')}}">Historique de mes
-                                    Commandes</a>
-                                <a class="brand" href="{{ path('app_logout') }}">Déconnexion</a>
-                                {% endif %}
                             </div>
                         </div>
                     </div>

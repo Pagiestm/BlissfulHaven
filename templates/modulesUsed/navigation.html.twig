@@ -1,24 +1,21 @@
 <div class="well">
     <ul class="nav nav-list">
         <li class="nav-header">Nos produits</li>
-        <li class="active">
-            <div style="padding-left: 30px;" class="row">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                        Catégories <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('app_produits') }}">Toutes</a></li>
-                        {% for categorie in categories %}
-                            {# Vérifiez si la catégorie actuelle est celle sélectionnée et ajoutez la classe "active" #}
-                            {% set activeClass = (selectedCategorie and selectedCategorie.id == categorie.id) ? 'active' : '' %}
-                            <li class="{{ activeClass }}">
-                                <a href="{{ path('app_produits', {'categorie': categorie.id}) }}">{{ categorie.nom }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
+            <li class="active">
+                <div style="padding-left: 30px;" class="row">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                            Catégories <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('app_produits') }}">Toutes</a></li>
+                            {% for categorie in categories %}
+                                <li><a href="{{ path('app_produits', {'categorie': categorie.id}) }}">{{ categorie.nom }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            </li>
         </li>
     </ul>
 </div>

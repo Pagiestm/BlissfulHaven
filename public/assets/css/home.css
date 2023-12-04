@@ -74,7 +74,6 @@ h2 {
 
 /* slider section */
 .slider_section {
-  min-height: 100vh;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
