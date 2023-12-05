@@ -8,7 +8,7 @@
 
 {% block body %}
 
-{% include 'modulesUsed/utilisateur.html.twig' %}
+{% include "modulesUsed/utilisateur.html.twig" %}
 
 <!-- slider section -->
 <section class="slider_section position-relative">
@@ -39,8 +39,6 @@
 </section>
 <!-- end slider section -->
 
-{% include 'modulesUsed/navigation.html.twig' %}
-
 <!-- shop section -->
 
 <section class="shop_section layout_padding">
@@ -49,8 +47,16 @@
             <h2>
                 Nos Produits
             </h2>
+            <div class="mt-3">
+                {% include "modulesUsed/navigation.html.twig" %}
+            </div>
         </div>
         <div class="row">
+            {% if produits is empty %}
+            <div class="col-12 text-center mt-5">
+                <p>Désolé, nous n'avons pas pu trouver de produit correspondant à votre recherche.</p>
+            </div>
+            {% else %}
             {% for stock in stocks %}
             {% if stock.stockCritique == 0 %}
             {# Vérifiez si la catégorie sélectionnée correspond à la catégorie du produit ou si aucune catégorie
@@ -81,11 +87,10 @@
             {% endif %}
             {% endif %}
             {% endfor %}
+            {% endif %}
         </div>
         <div class="btn-box">
-            <a href="">
-                Voir tous nos produits
-            </a>
+            <a href="{{ path('app_produits') }}">Afficher tous nos produits</a>
         </div>
     </div>
 </section>

@@ -18,20 +18,26 @@ class ProduitsController extends AbstractController
     public function produits(ProduitsRepository $produitRepo, CategoriesRepository $categorieRepo, StocksRepository $stockRepo, Request $request): Response
     {
         $categories = $categorieRepo->findAll();
-        $produits = $produitRepo->findAll();
         $stocks = $stockRepo->findAll();
 
-        $categorieId = $request->query->get('categorie');
+        $categorieName = $request->query->get('categorie');
         $selectedCategorie = null;
 
-        if ($categorieId) {
-            $selectedCategorie = $categorieRepo->find($categorieId);
-
-            if (!$selectedCategorie) {
-                throw $this->createNotFoundException('La catégorie demandée n\'existe pas');
+        if ($categorieName) {
+            $selectedCategories = $categorieRepo->createQueryBuilder('c')
+                ->where('c.nom LIKE :nom')
+                ->setParameter('nom', '%' . $categorieName . '%')
+                ->getQuery()
+                ->getResult();
+        
+            if (!empty($selectedCategories)) {
+                $selectedCategorie = $selectedCategories[0];
+                $produits = $produitRepo->findBy(['categorie' => $selectedCategorie]);
+            } else {
+                $produits = [];
             }
-
-            $produits = $produitRepo->findBy(['categorie' => $selectedCategorie]);
+        } else {
+            $produits = $produitRepo->findAll();
         }
 
         return $this->render('produits/produits.html.twig', [

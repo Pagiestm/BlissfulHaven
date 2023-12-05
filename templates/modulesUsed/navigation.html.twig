@@ -1,21 +1,19 @@
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/modulesUsed/navigation.css') }}" />
+{% endblock %}
 <div class="well">
     <ul class="nav nav-list">
-        <li class="nav-header">Nos produits</li>
-            <li class="active">
-                <div style="padding-left: 30px;" class="row">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            Catégories <span class="caret"></span>
+        <li class="active">
+            <div style="padding-left: 30px;" class="row">
+                <form action="{{ path('app_produits') }}" method="get" class="input-group search-form">
+                    <input type="search" name="categorie" placeholder="Afficher une catégorie" class="form-control">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="fa fa-search"></i>
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('app_produits') }}">Toutes</a></li>
-                            {% for categorie in categories %}
-                                <li><a href="{{ path('app_produits', {'categorie': categorie.id}) }}">{{ categorie.nom }}</a></li>
-                            {% endfor %}
-                        </ul>
                     </div>
-                </div>
-            </li>
+                </form>
+            </div>
         </li>
     </ul>
 </div>
