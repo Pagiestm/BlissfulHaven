@@ -17,6 +17,7 @@
                     <tr>
                         <th>Date</th>
                         <th>Produits</th>
+                        <th>Adresse de livraison</th>
                         <th>Quantité</th>
                         <th>Total</th>
                     </tr>
@@ -33,6 +34,7 @@
                                         {% endfor %}
                                     </ul>
                                 </td>
+                                <td>{{ commande.getAdresseLivraison().getFullAddress() }}</td>
                                 <td>{{ commande.quantite }}</td>
                                 <td>{{ commande.total }} €</td>
                             </tr>

@@ -10,23 +10,25 @@
             <div id="collapseOne">
                 <div class="accordion-inner">
                     <div class="span4">
-                            <h4>Adresse de livraison</h4>
+                        <h4>Adresse de livraison</h4>
+                        <form action="{{ path('app_livraison_validation') }}" method="post">
                             {% for utilisateurAdresses in utilisateurAdresses %}
                             <label class="radio">
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                <input type="radio" name="selectedAddress" value="{{ utilisateurAdresses.id }}" checked="">
                                 {{ utilisateurAdresses.adresse }}, {{ utilisateurAdresses.cp }} {{ utilisateurAdresses.ville }}, {{ utilisateurAdresses.Pays }} 
                                 <a href={{ path('supprimerAdresse', {'id': utilisateurAdresses.id}) }}><i class="icon-trash"></i></a>
                             </label>
                             {% endfor %}
                             <br /><br />
-                            <a href="{{ path ('app_validation_commande') }}" class="btn btn-success pull-right">Continuer</a>
+                            <button type="submit" class="btn btn-success pull-right">Continuer</button>
+                        </form>
                     </div>
-				<div class="span4 offset2">
-					<h4>Ajouter une nouvelle adresse</h4>
-                    {{ form(utilisateurAdresse) }}
-					</div>
-				</div>
-			</div>					
-	</div>
-</div>
+                    <div class="span4 offset2">
+                        <h4>Ajouter une nouvelle adresse</h4>
+                        {{ form(utilisateurAdresse) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

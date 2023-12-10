@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateursAdressesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -62,6 +64,21 @@ class UtilisateursAdresses
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commandes::class, mappedBy="adresseLivraison")
+     */
+    private $commandes;
+
+    public function getFullAddress(): string
+    {
+        return $this->adresse . ', ' . $this->cp . ' ' . $this->ville . ', ' . $this->pays;
+    }
+
+    public function __construct()
+    {
+        $this->commandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -172,6 +189,36 @@ class UtilisateursAdresses
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commandes>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commandes $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setAdresseLivraison($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commandes $commande): self
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getAdresseLivraison() === $this) {
+                $commande->setAdresseLivraison(null);
+            }
+        }
 
         return $this;
     }
