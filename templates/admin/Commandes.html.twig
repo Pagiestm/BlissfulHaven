@@ -12,6 +12,7 @@
             <th>Dates</th>
             <th>Etats</th>
             <th>Produits</th>
+            <th>Adresse de livraison</th>
             <th>Quantité Total</th>
             <th>Total</th>
             <th>Action</th>
@@ -29,6 +30,7 @@
                             {% endfor %}
                         </ul>
                     </td>
+                    <td>{{ commande.getAdresseLivraison().getFullAddress() }}</td>
                     <td>{{ commande.quantite }}</td>
                     <td>{{ commande.total }}€</td>
                     <td><a href="{{ path('app_modifierCommandes', {'id': commande.id}) }}" class="btn btn-warning">Modifier</a></td>

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProduitsRepository;
 use App\Repository\StocksRepository;
+use App\Repository\UtilisateursAdressesRepository;
 use App\Entity\Commandes;
 use App\Repository\CommandesRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -46,17 +47,21 @@ class CommandesController extends AbstractController
             $quantiteTotale += $quantite;
         }
 
+        // Récupérer l'adresse sélectionnée à partir de la variable de session
+        $selectedAddress = $session->get('selectedAddress');
+
         return $this->render('panier/validation_commande.html.twig', [
             'dataPanier' => $dataPanier,
             'total' => $total,
             'quantiteTotale' => $quantiteTotale,
+            'selectedAddress' => $selectedAddress,
         ]);
     }
 
     /**
      * @Route("/panier/commander", name="app_commande")
      */
-    public function Commande(SessionInterface $session, ProduitsRepository $produitRepo, StocksRepository $stocksRepo, EntityManagerInterface $entityManager, ManagerRegistry $doctrine)
+    public function Commande(SessionInterface $session, ProduitsRepository $produitRepo, StocksRepository $stocksRepo, EntityManagerInterface $entityManager, ManagerRegistry $doctrine, UtilisateursAdressesRepository $addressRepo)
     {
 
         if (!$this->getUser()) {
@@ -69,6 +74,10 @@ class CommandesController extends AbstractController
         $quantiteTotale = 0;
 
         $commande = new Commandes;
+
+        // Get the selected address
+    $selectedAddressId = $session->get("selectedAddress");
+    $selectedAddress = $addressRepo->find($selectedAddressId);
 
         // On boucle sur chaque produit du panier
         foreach ($panier as $id => $quantite) {
@@ -110,6 +119,9 @@ class CommandesController extends AbstractController
 
         // On définit la quantité totale de tous les produits dans la commande
         $commande->setQuantite($quantiteTotale);
+
+        // Set the delivery address for the order
+        $commande->setAdresseLivraison($selectedAddress);
 
         // On persiste la commande
         $entityManager->persist($commande);

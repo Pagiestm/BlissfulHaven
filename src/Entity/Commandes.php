@@ -50,6 +50,12 @@ class Commandes
      */
     private $produits;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=UtilisateursAdresses::class, inversedBy="commandes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $adresseLivraison;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
@@ -143,6 +149,18 @@ class Commandes
         if ($this->produits->removeElement($produit)) {
             $produit->removeCommande($this);
         }
+
+        return $this;
+    }
+
+    public function getAdresseLivraison(): ?UtilisateursAdresses
+    {
+        return $this->adresseLivraison;
+    }
+
+    public function setAdresseLivraison(?UtilisateursAdresses $adresseLivraison): self
+    {
+        $this->adresseLivraison = $adresseLivraison;
 
         return $this;
     }

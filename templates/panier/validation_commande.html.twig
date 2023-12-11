@@ -29,6 +29,14 @@
             </tbody>
             </table>
 
+            <dl class="dl-horizontal pull-left">
+            {% if selectedAddress is not null %}
+                <dd><dt>Adresse de livraison :</dt> {{ selectedAddress.adresse }}, {{ selectedAddress.cp }} {{ selectedAddress.ville }}, {{ selectedAddress.Pays }}</dd>
+            {% else %}
+                <dd>Aucune adresse de livraison sélectionnée</dd>
+            {% endif %}
+            </dl>
+
             <dl class="dl-horizontal pull-right">
                 <dt>Total à débourser :</dt>
                     <dd>{{ total }}€</dd>
