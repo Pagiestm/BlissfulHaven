@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un produit{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un produit</h1>   
+    {{ form(productForm) }}
+
+    <a href="{{ path ('app_panel') }}" class="btn btn-primary">Retour</a>
+{% endblock %}

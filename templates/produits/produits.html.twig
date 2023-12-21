@@ -67,7 +67,7 @@
                 <div class="box">
                     <a href="{{ path('app_presentation', { 'id' : stock.produit.id}) }}">
                         <div class="img-box">
-                            <img src="{{ stock.produit.getImage }}" alt="BlissfulHaven">
+                            <img src="{{ asset('uploads/' ~ stock.produit.image.path) }}">
                         </div>
                         <div class="detail-box">
                             <h6>

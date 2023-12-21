@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Commandes;
+use App\Entity\Produits;
 use App\Entity\Stocks;
+use App\Entity\Media;
 use App\Form\EditUserType;
 use App\Form\EditCommandeType;
 use App\Form\EditStocksType;
+use App\Form\ProductType;
 use App\Repository\UserRepository;
 use App\Repository\CommandesRepository;
 use App\Repository\StocksRepository;
@@ -16,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AdminController extends AbstractController
 {
@@ -154,6 +158,77 @@ class AdminController extends AbstractController
 
         return $this->render('admin/editStock.html.twig', [
             'stockForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * Créer un nouveau produit
+     * 
+     * @Route("/admin/creerProduit", name="app_creerProduit")
+     */
+    public function createProduct(Request $request, ManagerRegistry $doctrine)
+    {
+        $product = new Produits();
+
+        $form = $this->createForm(ProductType::class, $product);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form['image']->getData();
+
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            
+                // Get the current year
+                $year = date('Y');
+            
+                // Create a new directory for the year if it doesn't exist
+                $uploadDirectory = $this->getParameter('images_directory') . '/' . $year;
+                if (!file_exists($uploadDirectory)) {
+                    mkdir($uploadDirectory, 0777, true);
+                }
+            
+                try {
+                    $file->move(
+                        $uploadDirectory,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+            
+                // Create and set Media entity
+                $media = new Media();
+                $media->setPath($year . '/' . $newFilename); // Update the path to include the year
+                $media->setAlt($newFilename);
+                $media->setCategories($product->getCategorie()); // Set the category of the image to be the same as the product's category
+                $product->setImage($media);
+            }
+
+            $manager = $doctrine->getManager();
+            $manager->persist($product);
+            $manager->flush();
+
+            $stock = new Stocks();
+            $quantite = $form['quantite']->getData();
+            $stock->setQuantite($quantite);
+            $stock->setProduit($product);
+            $stock->setStockCritique($quantite <= 10); // Set stock_critique to true if quantity is 10 or less, false otherwise
+            $stock->setMagasin($form['magasin']->getData());
+
+            $manager->persist($stock);
+            $manager->flush();
+
+            $this->addFlash('message', 'Produit créé avec succès');
+            return $this->redirectToRoute('app_produits');
+        }
+
+        return $this->render('admin/createProduct.html.twig', [
+            'productForm' => $form->createView()
         ]);
     }
 }

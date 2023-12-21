@@ -76,8 +76,8 @@ class CommandesController extends AbstractController
         $commande = new Commandes;
 
         // Get the selected address
-    $selectedAddressId = $session->get("selectedAddress");
-    $selectedAddress = $addressRepo->find($selectedAddressId);
+        $selectedAddressId = $session->get("selectedAddress");
+        $selectedAddress = $addressRepo->find($selectedAddressId);
 
         // On boucle sur chaque produit du panier
         foreach ($panier as $id => $quantite) {
