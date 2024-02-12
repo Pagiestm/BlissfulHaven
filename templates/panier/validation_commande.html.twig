@@ -17,36 +17,65 @@
                         <th>Prix total</th>
                     </tr>
                 </thead>
-            <tbody>
-            {% for item in dataPanier %}
+                <tbody>
+                    {% for item in dataPanier %}
                     <tr>
                         <td>{{ item.produit.nom }}</td>
                         <td>{{ item.quantite }}</td>
                         <td>{{ item.produit.prix }} €</td>
                         <td>{{ item.produit.prix * item.quantite }} €</td>
                     </tr>
-            {% endfor %}
-            </tbody>
+                    {% endfor %}
+                </tbody>
             </table>
 
             <dl class="dl-horizontal pull-left">
-            {% if selectedAddress is not null %}
-                <dd><dt>Adresse de livraison :</dt> {{ selectedAddress.adresse }}, {{ selectedAddress.cp }} {{ selectedAddress.ville }}, {{ selectedAddress.Pays }}</dd>
-            {% else %}
+                {% if selectedAddress is not null %}
+                <dd>
+                <dt>Adresse de livraison :</dt> {{ selectedAddress.adresse }}, {{ selectedAddress.cp }} {{
+                selectedAddress.ville }}, {{ selectedAddress.Pays }}</dd>
+                {% else %}
                 <dd>Aucune adresse de livraison sélectionnée</dd>
-            {% endif %}
+                {% endif %}
             </dl>
 
             <dl class="dl-horizontal pull-right">
                 <dt>Total à débourser :</dt>
-                    <dd>{{ total }}€</dd>
+                <dd>{{ total }}€</dd>
                 <dt>Quantité Total :</dt>
-                    <dd>{{ quantiteTotale }}</dd>
+                <dd>{{ quantiteTotale }}</dd>
             </dl>
             <div class="clearfix"></div>
-                <a href="{{ path('app_panier') }}" class="btn btn-secondary">Retour au panier</a>
-                <a href="{{ path('app_commande') }}" class="btn btn-primary pull-right">Valider la commande</a>
+            <a href="{{ path('app_panier') }}" class="btn btn-secondary">Retour au panier</a>
+            <button id="checkout-button" class="btn btn-primary pull-right">Valider la commande</button>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('pk_test_51Oj7TkFHB1pRascd1IYddVpLVmxZwgIpeCZaqsphwUODjJTHk15dDNtgi0nepQdZ9dWfw7maPgjmDOvOKZzuUS0M00IKK4hdZs');
+
+    document.querySelector('#checkout-button').addEventListener('click', function() {
+        fetch('/create-checkout-session', {
+            method: 'POST',
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(session) {
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+            if (result.error) {
+                alert(result.error.message);
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+</script>
 {% endblock %}

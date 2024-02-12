@@ -12,6 +12,10 @@ use App\Repository\CommandesRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CommandesController extends AbstractController
 {
@@ -59,15 +63,51 @@ class CommandesController extends AbstractController
     }
 
     /**
-     * @Route("/panier/commander", name="app_commande")
+     * @Route("/create-checkout-session", name="create_checkout_session")
      */
-    public function Commande(SessionInterface $session, ProduitsRepository $produitRepo, StocksRepository $stocksRepo, EntityManagerInterface $entityManager, ManagerRegistry $doctrine, UtilisateursAdressesRepository $addressRepo)
+    public function createCheckoutSession(SessionInterface $session, ProduitsRepository $produitRepo)
     {
+        Stripe::setApiKey('sk_test_51Oj7TkFHB1pRascdzx9iYvWezJ4qdHh0uGNSz0EL8DXC1qqWONVWhJpzcYeKsYnJUDBChZLtrBJ894983uZwcDHc00v6kuegaP');
 
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+        $panier = $session->get("panier", []);
+        $line_items = [];
+
+        foreach ($panier as $id => $quantite) {
+            $produit = $produitRepo->find($id);
+            if (!$produit) {
+                throw $this->createNotFoundException('Le produit demandé n\'existe pas');
+            }
+
+            $line_items[] = [
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => $produit->getNom(),
+                    ],
+                    'unit_amount' => $produit->getPrix() * 100, // Stripe attend le montant en centimes
+                ],
+                'quantity' => $quantite,
+            ];
         }
 
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => $line_items,
+            'mode' => 'payment',
+            'success_url' => $this->generateUrl('payment_success', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url' => $this->generateUrl('payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
+        ]);
+
+        return new JsonResponse(['id' => $session->id]);
+    }
+
+    /**
+     * @Route("/success", name="payment_success")
+     */
+    public function paymentSuccess(SessionInterface $session, ProduitsRepository $produitRepo, StocksRepository $stocksRepo, EntityManagerInterface $entityManager, ManagerRegistry $doctrine, UtilisateursAdressesRepository $addressRepo)
+    {
+
+        // Gérez le succès du paiement
         $panier = $session->get("panier", []);
         $dataPanier = [];
         $total = 0;
@@ -75,7 +115,7 @@ class CommandesController extends AbstractController
 
         $commande = new Commandes;
 
-        // Get the selected address
+        // Sélectionner l'adresse de livraison
         $selectedAddressId = $session->get("selectedAddress");
         $selectedAddress = $addressRepo->find($selectedAddressId);
 
@@ -132,7 +172,16 @@ class CommandesController extends AbstractController
 
         $this->addFlash('success', 'La commande a été transmise avec succès.');
 
-        return $this->redirectToRoute('app_historiqueCommandes');
+        return $this->render('payment/success.html.twig');
+    }
+
+    /**
+     * @Route("/cancel", name="payment_cancel")
+     */
+    public function paymentCancel()
+    {
+        // Gérez l'annulation du paiement ici
+        return $this->render('payment/cancel.html.twig');
     }
 
     /**
