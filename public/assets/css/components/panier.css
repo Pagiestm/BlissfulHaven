@@ -1,0 +1,51 @@
+.title {
+    color: #fd9c6b;
+}
+
+.cart-item {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.cart-item h5 {
+    color: #333;
+    font-size: 18px;
+}
+
+.cart-item p {
+    color: #333;
+    font-size: 16px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-custom {
+    background-color: #fd9c6b;
+    color: black;
+}
+
+.btn-custom:hover {
+    background-color: black;
+    color: white;
+}
+
+.sidebar {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 5px;
+}
