@@ -1,0 +1,53 @@
+h1 {
+    color: #fd9c6b;
+}
+
+.card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    color: #333;
+}
+
+.form-check-label {
+    color: #666;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+button[type="submit"] {
+    background-color: #fd9c6b;
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+button[type="submit"]:hover {
+    background-color: black;
+    color: white;
+}

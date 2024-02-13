@@ -2,33 +2,44 @@
 
 {% block title %}Livraison{% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/components/livraison.css') }}" />
+{% endblock %}
+
 {% block body %}
-<div class="container content">
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Livraison</h1>
     <div class="row">
-        <div class="span12">
-            <h2>Livraison</h2>
-            <div id="collapseOne">
-                <div class="accordion-inner">
-                    <div class="span4">
-                        <h4>Adresse de livraison</h4>
-                        <form action="{{ path('app_livraison_validation') }}" method="post">
-                            {% for utilisateurAdresses in utilisateurAdresses %}
-                            <label class="radio">
-                                <input type="radio" name="selectedAddress" value="{{ utilisateurAdresses.id }}" checked="">
-                                {{ utilisateurAdresses.adresse }}, {{ utilisateurAdresses.cp }} {{ utilisateurAdresses.ville }}, {{ utilisateurAdresses.Pays }} 
-                                <a href={{ path('supprimerAdresse', {'id': utilisateurAdresses.id}) }}><i class="icon-trash"></i></a>
+        <div class="col-lg-5">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Adresse de livraison</h4>
+                    <form action="{{ path('app_livraison_validation') }}" method="post">
+                        {% for utilisateurAdresses in utilisateurAdresses %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="selectedAddress"
+                                value="{{ utilisateurAdresses.id }}" checked>
+                            <label class="form-check-label">
+                                {{ utilisateurAdresses.adresse }}, {{ utilisateurAdresses.cp }} {{
+                                utilisateurAdresses.ville }}, {{ utilisateurAdresses.Pays }}
                             </label>
-                            {% endfor %}
-                            <br /><br />
-                            <button type="submit" class="btn btn-success pull-right">Continuer</button>
-                        </form>
-                    </div>
-                    <div class="span4 offset2">
-                        <h4>Ajouter une nouvelle adresse</h4>
-                        {{ form(utilisateurAdresse) }}
-                    </div>
+                            <a href={{ path('supprimerAdresse', {'id': utilisateurAdresses.id}) }}
+                                class="text-danger ml-2"><i class="fas fa-trash"></i></a>
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn mt-3">Continuer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 offset-lg-2">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Ajouter une nouvelle adresse</h4>
+                    {{ form(utilisateurAdresse) }}
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

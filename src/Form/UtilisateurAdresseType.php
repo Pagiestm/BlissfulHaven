@@ -17,7 +17,7 @@ class UtilisateurAdresseType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('adresse')
-            ->add('cp')
+            ->add('cp', null, ['label' => 'Code Postal'])
             ->add('pays')
             ->add('ville')
             ->add('complement')
