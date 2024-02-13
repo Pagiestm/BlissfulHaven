@@ -59,7 +59,7 @@
 {% block javascripts %}
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    var stripe = Stripe('pk_test_51Oj7TkFHB1pRascd1IYddVpLVmxZwgIpeCZaqsphwUODjJTHk15dDNtgi0nepQdZ9dWfw7maPgjmDOvOKZzuUS0M00IKK4hdZs');
+    const stripe = Stripe('pk_test_51Oj7TkFHB1pRascd1IYddVpLVmxZwgIpeCZaqsphwUODjJTHk15dDNtgi0nepQdZ9dWfw7maPgjmDOvOKZzuUS0M00IKK4hdZs');
 
     document.querySelector('#checkout-button').addEventListener('click', function() {
         fetch('/create-checkout-session', {
