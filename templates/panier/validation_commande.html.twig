@@ -14,7 +14,7 @@
             {% for item in dataPanier %}
             <div class="cart-item p-3 d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <img src="{{ item.produit.image }}" alt="{{ item.produit.nom }}" style="width: 100px; height: 100px; object-fit: contain; border-radius: 5px;">
+                    <img src="{{ asset('uploads/' ~ item.produit.image.path) }}" alt="{{ item.produit.nom }}" style="width: 100px; height: 100px; object-fit: contain; border-radius: 5px;">
                     <div class="ml-3">
                         <h5>{{ item.produit.nom }}</h5>
                         <p>Quantité : {{ item.quantite }}</p>

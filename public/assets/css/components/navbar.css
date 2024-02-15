@@ -44,7 +44,7 @@
   height: 100%;
   background-color: white;
   -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
-          box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
   z-index: 7;
   border-radius: 100%;
   -webkit-transition: all .3s;
@@ -56,7 +56,7 @@
   height: 100vh;
   background-color: #160e0b;
   -webkit-transform: scale(5);
-          transform: scale(5);
+  transform: scale(5);
   border-radius: 0;
 }
 
@@ -71,14 +71,14 @@
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   background-color: transparent;
   position: relative;
   z-index: 999;
@@ -107,17 +107,17 @@
 
 .menu_btn-style button .s-1 {
   -webkit-transform: rotate(45deg) translate(6px, 6px);
-          transform: rotate(45deg) translate(6px, 6px);
+  transform: rotate(45deg) translate(6px, 6px);
 }
 
 .menu_btn-style button .s-2 {
   -webkit-transform: translateX(100px);
-          transform: translateX(100px);
+  transform: translateX(100px);
 }
 
 .menu_btn-style button .s-3 {
   -webkit-transform: rotate(-45deg) translate(5px, -5px);
-          transform: rotate(-45deg) translate(5px, -5px);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 .overlay {
@@ -189,7 +189,7 @@ a:focus {
 .btn:focus {
   outline: none !important;
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 .navbar-brand {
@@ -201,6 +201,71 @@ a:focus {
   font-weight: 700;
   color: #ffffff;
   text-transform: uppercase;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.8s ease;
+}
+
+.navbar-brand span {
+  display: none;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+@media (min-width: 992px) {
+  .navbar-brand span {
+    display: block;
+    color: #ffffff;
+  }
+}
+
+@media (max-width: 991px) {
+  .navbar {
+    background-color: transparent;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar {
+    background-color: transparent;
+  }
+
+  .navbar.scrolled {
+    background-color: #160e0b;
+  }
+}
+
+.navbar.scrolled {
+  background-color: #160e0b;
+}
+
+.navbar-brand span {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+  color: #ffffff;
+  font-size: 18px;
+  margin-right: 20px;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #fd9c6b;
+}
+
+.custom_menu-btn button {
+  background-color: #ffffff;
+}
+
+.custom_menu-btn button span {
+  background-color: #160e0b;
 }
 
 /*end header section*/
