@@ -7,78 +7,92 @@
 {% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <h2 class="title text-center mb-4">Validation de la commande</h2>
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            {% for item in dataPanier %}
-            <div class="cart-item p-3 d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('uploads/' ~ item.produit.image.path) }}" alt="{{ item.produit.nom }}" style="width: 100px; height: 100px; object-fit: contain; border-radius: 5px;">
-                    <div class="ml-3">
-                        <h5>{{ item.produit.nom }}</h5>
-                        <p>Quantité : {{ item.quantite }}</p>
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="container mt-5">
+        <h2 class="title text-center mb-4">Validation de la commande</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% for item in dataPanier %}
+                <div class="cart-item p-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('uploads/' ~ item.produit.image.path) }}" alt="{{ item.produit.nom }}"
+                            style="width: 100px; height: 100px; object-fit: contain; border-radius: 5px;">
+                        <div class="ml-3">
+                            <h5>{{ item.produit.nom }}</h5>
+                            <p>Quantité : {{ item.quantite }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="mb-0">Prix unitaire: {{ item.produit.prix }} €</p>
+                        <p class="mb-0">Total: {{ item.produit.prix * item.quantite }} €</p>
                     </div>
                 </div>
-                <div>
-                    <p class="mb-0">Prix unitaire: {{ item.produit.prix }} €</p>
-                    <p class="mb-0">Total: {{ item.produit.prix * item.quantite }} €</p>
+                {% else %}
+                <p>Votre panier est vide</p>
+                {% endfor %}
+                <div class="text-md-left text-center">
+                    <a href="{{ path('app_panier') }}" class="btn btn-custom mb-4">Retour au panier</a>
                 </div>
             </div>
-            {% else %}
-            <p>Votre panier est vide</p>
-            {% endfor %}
-            <div class="text-md-left text-center">
-                <a href="{{ path('app_panier') }}" class="btn btn-custom mb-4">Retour au panier</a>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="sidebar">
-                <dl>
-                    {% if selectedAddress is not null %}
-                    <dt>Adresse de livraison :</dt>
-                    <dd>{{ selectedAddress.adresse }}, {{ selectedAddress.cp }} {{ selectedAddress.ville }}, {{ selectedAddress.Pays }}</dd>
-                    {% else %}
-                    <dd>Aucune adresse de livraison sélectionnée</dd>
-                    {% endif %}
-                </dl>
-                <div class="d-flex justify-content-between">
-                    <h5><strong>Total à débourser :</strong></h5>
-                    <h5>{{ total }} €</h5>
-                </div>
-                <p>Quantité Total : {{ quantiteTotale }}</p>
-                <div class="text-center">
-                    <button id="checkout-button" class="btn btn-custom mt-3">Valider la commande</button>
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <dl>
+                        {% if selectedAddress is not null %}
+                        <dt>Adresse de livraison :</dt>
+                        <dd>{{ selectedAddress.adresse }}, {{ selectedAddress.cp }} {{ selectedAddress.ville }}, {{
+                            selectedAddress.Pays }}</dd>
+                        {% else %}
+                        <dd>Aucune adresse de livraison sélectionnée</dd>
+                        {% endif %}
+                    </dl>
+                    <div class="d-flex justify-content-between">
+                        <h5><strong>Total à débourser :</strong></h5>
+                        <h5>{{ total }} €</h5>
+                    </div>
+                    <p>Quantité Total : {{ quantiteTotale }}</p>
+                    <div class="text-center">
+                        <button id="checkout-button" class="btn btn-custom mt-3">Valider la commande</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block javascripts %}
+<style>
+    @media (max-width: 991px) {
+        .d-flex {
+            height: auto !important;
+            padding: 20px 0;
+        }
+    }
+</style>
+
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    const stripe = Stripe('pk_test_51Oj7TkFHB1pRascd1IYddVpLVmxZwgIpeCZaqsphwUODjJTHk15dDNtgi0nepQdZ9dWfw7maPgjmDOvOKZzuUS0M00IKK4hdZs');
-
-    document.querySelector('#checkout-button').addEventListener('click', function() {
-        fetch('/create-checkout-session', {
-            method: 'POST',
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(session) {
-            return stripe.redirectToCheckout({ sessionId: session.id });
-        })
-        .then(function(result) {
-            if (result.error) {
-                alert(result.error.message);
-            }
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
+    (function() {
+        const stripe = Stripe('pk_test_51Oj7TkFHB1pRascd1IYddVpLVmxZwgIpeCZaqsphwUODjJTHk15dDNtgi0nepQdZ9dWfw7maPgjmDOvOKZzuUS0M00IKK4hdZs');
+    
+        document.querySelector('#checkout-button').addEventListener('click', function () {
+            fetch('/create-checkout-session', {
+                method: 'POST',
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (session) {
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
         });
-    });
+    })();
 </script>
+
 {% endblock %}

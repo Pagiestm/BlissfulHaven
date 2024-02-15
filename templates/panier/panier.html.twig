@@ -7,56 +7,67 @@
 {% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <h2 class="title text-center mb-4">Votre Panier</h2>
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            {% for element in dataPanier %}
-            <div class="cart-item p-3 d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('uploads/' ~ element.produit.image.path) }}" alt="{{ element.produit.nom }}" style="width: 100px; height: 100px; object-fit: contain; border-radius: 5px;">
-                    <div class="ml-3">
-                        <h5>{{ element.produit.nom }}</h5>
-                        <div>
-                            <a href="{{ path("app_ajouterPanier", {id : element.produit.id}) }}" class="btn btn-success">
-                                <i>+</i>
-                            </a>
-                            <span class="mx-2">{{ element.quantite }}</span>
-                            <a href="{{ path("app_supprimerElement", {id : element.produit.id}) }}" class="btn btn-warning">
-                                <i>-</i>
-                            </a>
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="container mt-5">
+        <h2 class="title text-center mb-4">Votre Panier</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% for element in dataPanier %}
+                <div class="cart-item p-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('uploads/' ~ element.produit.image.path) }}" alt="{{ element.produit.nom }}" style="width: 100px; height: 100px; object-fit: contain; border-radius: 5px;">
+                        <div class="ml-3">
+                            <h5>{{ element.produit.nom }}</h5>
+                            <div>
+                                <a href="{{ path("app_ajouterPanier", {id : element.produit.id}) }}" class="btn btn-success">
+                                    <i>+</i>
+                                </a>
+                                <span class="mx-2">{{ element.quantite }}</span>
+                                <a href="{{ path("app_supprimerElement", {id : element.produit.id}) }}" class="btn btn-warning">
+                                    <i>-</i>
+                                </a>
+                            </div>
                         </div>
                     </div>
+                    <div>
+                        <p class="mb-0">Prix unitaire: {{ element.produit.prix }} €</p>
+                        <p class="mb-0">Total: {{ element.quantite * element.produit.prix }} €</p>
+                    </div>
+                    <div>
+                        <a href="{{ path("app_supprimerLeProduit", {id : element.produit.id}) }}" class="btn btn-danger">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
                 </div>
-                <div>
-                    <p class="mb-0">Prix unitaire: {{ element.produit.prix }} €</p>
-                    <p class="mb-0">Total: {{ element.quantite * element.produit.prix }} €</p>
-                </div>
-                <div>
-                    <a href="{{ path("app_supprimerLeProduit", {id : element.produit.id}) }}" class="btn btn-danger">
-                        <i class="fas fa-trash"></i>
-                    </a>
+                {% else %}
+                <p>Votre panier est vide</p>
+                {% endfor %}
+                <div class="text-md-left text-center">
+                    <a href="{{ path ('app_produits') }}" class="btn btn-custom mb-4">Continuer mes achats</a>
                 </div>
             </div>
-            {% else %}
-            <p>Votre panier est vide</p>
-            {% endfor %}
-            <div class="text-md-left text-center">
-                <a href="{{ path ('app_produits') }}" class="btn btn-custom mb-4">Continuer mes achats</a>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="sidebar">
-                <div class="d-flex justify-content-between">
-                    <h5><strong>Total :</strong></h5>
-                    <h5>{{ total }} €</h5>
-                </div>
-                <p>Une question ? Contactez-nous au 0600000000</p>
-                <div class="text-center">
-                    <a href="{{ path ('app_livraison') }}" class="btn btn-custom mt-2 mb-2">Continuer</a>
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="d-flex justify-content-between">
+                        <h5><strong>Total :</strong></h5>
+                        <h5>{{ total }} €</h5>
+                    </div>
+                    <p>Une question ? Contactez-nous au 0600000000</p>
+                    <div class="text-center">
+                        <a href="{{ path ('app_livraison') }}" class="btn btn-custom mt-2 mb-2">Continuer</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    @media (max-width: 991px) {
+        .d-flex {
+            height: auto !important;
+            padding: 20px 0;
+        }
+    }
+</style>
 {% endblock %}
