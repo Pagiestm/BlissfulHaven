@@ -1,35 +1,35 @@
-{% block title %}Register{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/components/register.css') }}" />
+{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="span12">
-            <h2>Inscription</h2>
-            <div id="collapseOne" class="accordion-body collapse in">
-                <div class="accordion-inner">
-                    <div class="span4">
-                        <h4>Pas encore inscrit ?</h4>
-                        <em>
-                            nous vous invitons à vous inscrire<br />
-                        </em>
-                    </div>
-                    
-                    <div class="span4 offset2">
-                        <h4>Inscription</h4>
-                            {{ form_start(registrationForm) }}
-                                {{ form_row(registrationForm.pseudo) }}
-                                {{ form_row(registrationForm.email) }}
-                                {{ form_row(registrationForm.plainPassword, {
-                                    label: 'Password'
-                            }) }}
-                                {{ form_row(registrationForm.agreeTerms) }}
-
-                                <button type="submit" class="btn btn-primary">Inscription</button>
-                            {{ form_end(registrationForm) }}
-                    </div>
-                </div>
-            </div>
+<div class="ring">
+    <i style="--clr:#fec3a6;"></i>
+    <i style="--clr:#fd9c6b;"></i>
+    <i style="--clr:#ba622f;"></i>
+    <div class="register">
+        <h2>Inscription</h2>
+        <div class="span4">
+            <h4>Pas encore inscrit ?</h4>
+            <em>nous vous invitons à vous inscrire<br /></em>
         </div>
+        {{ form_start(registrationForm) }}
+            <div class="inputBx">
+                {{ form_row(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Pseudo', 'required': 'required'}}) }}
+            </div>
+            <div class="inputBx">
+                {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}}) }}
+            </div>
+            <div class="inputBx">
+                {{ form_row(registrationForm.plainPassword, {'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Password', 'required': 'required'}}) }}
+            </div>
+            <div class="inputBx">
+                {{ form_row(registrationForm.agreeTerms, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="inputBx">
+                <button type="submit" class="btn btn-primary">Inscription</button>
+            </div>
+        {{ form_end(registrationForm) }}
     </div>
 </div>
 {% endblock %}
