@@ -2,22 +2,28 @@
 
 {% block title %}Presentation{% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/components/presentation.css') }}" />
+{% endblock %}
+
 {% block body %}
-<div class="container content">
-    <div class="row">
-        <div class="span9">
-            <div class="row">
-                <div class="span5">
-                    <img src="{{ asset('uploads/' ~ produit.image.path) }}" width="470" height="310">
+<div class="d-flex justify-content-center align-items-center" style="margin: 80px 0;">
+    <div class="product-page container py-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="product-image mb-4">
+                    <img src="{{ asset('uploads/' ~ produit.image.path) }}" class="img-fluid" alt="{{ produit.nom }}">
                 </div>
-                <div class="span4">
-                    <h4>{{ produit.categorie.nom }}</h4>
-                    <h5>{{ produit.nom }}</h5>
-                    <p>{{ produit.description }}</p>
-                    <h4>{{ produit.prix }} €</h4>
+            </div>
+            <div class="col-lg-6">
+                <div class="product-info">
+                    <h2 class="product-title mb-3">{{ produit.nom }}</h2>
+                    <h4 class="product-category text-muted mb-3">{{ produit.categorie.nom }}</h4>
+                    <p class="product-description mb-4">{{ produit.description }}</p>
+                    <h3 class="product-price mb-4">{{ produit.prix }} €</h3>
                     <form action="{{ path('app_panier', {'id': produit.id}) }}" method="get">
-                        <div>
-                            <a class="btn btn-primary" href="{{ path('app_ajouterPanier', {'id' : produit.id}) }}">Ajouter au panier</a>
+                        <div class="d-flex justify-content-center">
+                            <a class="btn btn-primary btn-lg" href="{{ path('app_ajouterPanier', {'id' : produit.id}) }}">Ajouter au panier</a>
                         </div>
                     </form>   
                 </div>
@@ -25,4 +31,9 @@
         </div>
     </div>
 </div>
+
+<footer>
+    {% include 'footer.html.twig' %}
+</footer>
+
 {% endblock %}

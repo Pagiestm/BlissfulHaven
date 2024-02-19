@@ -1,0 +1,44 @@
+.product-page {
+    background-color: white;
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+}
+
+.product-info {
+    padding: 20px;
+}
+
+.product-title {
+    color: black;
+    margin-bottom: 20px;
+}
+
+.product-category {
+    color: #fd9c6b;
+    margin-bottom: 20px;
+}
+
+.product-description {
+    color: black;
+    margin-bottom: 20px;
+}
+
+.product-price {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.btn {
+    background-color: #fd9c6b;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: black;
+    color: white;
+}
