@@ -172,3 +172,9 @@ body {
     color: #fff;
     text-decoration: none;
 }
+
+@media (max-width: 768px) {
+    .ring i {
+      display: none;
+    }
+}

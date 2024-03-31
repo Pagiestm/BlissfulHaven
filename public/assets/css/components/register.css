@@ -195,3 +195,9 @@ body {
 .register .btn-primary:hover {
     background: #7c4020;
 }
+
+@media (max-width: 768px) {
+    .ring i {
+      display: none;
+    }
+}
